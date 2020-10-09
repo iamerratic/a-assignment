@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import { addUpvoteAsync, removeUpvoteAsync } from '../../store/actions/upvote.action';
+import { addHideAsync } from '../../store/actions/hide.action';
 
-function News({ objectID, sno, title, points, created_at, navigation, upvotes, dispatch }) {
+function News({ objectID, sno, title, points, created_at, navigation, upvotes, dispatch, hideNews }) {
 
     function handleTransition(id) {
         navigation.navigate('Details', {
@@ -12,7 +13,7 @@ function News({ objectID, sno, title, points, created_at, navigation, upvotes, d
         });
     }
 
-    return (
+    return !hideNews.includes(objectID) && (
         <View style={styles.newsWrapper}>
             <View style={styles.titleWrapper}>
                 <Text>{sno}. </Text>
@@ -31,7 +32,12 @@ function News({ objectID, sno, title, points, created_at, navigation, upvotes, d
             </View>
             <View style={styles.subtitleWrapper}>
                 <Text style={styles.subtitle}>{created_at} || </Text>
-                <Text style={styles.subtitle}>{points} points </Text>
+                <Text style={styles.subtitle}>{points} points ||</Text>
+                <TouchableOpacity onPress={function () {
+                    dispatch(addHideAsync(objectID));
+                }}>
+                    <Text style={styles.anchor}>hide</Text>
+                </TouchableOpacity>
                 {upvotes.includes(objectID) && (
                     <TouchableOpacity onPress={function () {
                         dispatch(removeUpvoteAsync(objectID));
@@ -68,8 +74,9 @@ var styles = StyleSheet.create({
     }
 });
 
-var mapStateToProps = ({ upvote: { upvotes } }) => ({
-    upvotes: upvotes
+var mapStateToProps = ({ upvote: { upvotes }, hide: { hideNews } }) => ({
+    upvotes: upvotes,
+    hideNews: hideNews
 });
 
 

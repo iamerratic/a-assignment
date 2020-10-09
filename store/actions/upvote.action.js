@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { set } from 'react-native-reanimated';
 function changeUpvotes(upvotes) {
 
     return {
@@ -39,13 +38,13 @@ export function setInitial() {
 }
 
 
-export function addUpvoteAsync(key) {
+export function addUpvoteAsync(id) {
 
     return async function (dispatch) {
         try {
             var upvotes = await getItem('upvotes');
-            if (!upvotes.includes(key)) {
-                var newUpvotes = [...upvotes, key];
+            if (!upvotes.includes(id)) {
+                var newUpvotes = [...upvotes, id];
             }
             else {
                 var newUpvotes = upvotes;

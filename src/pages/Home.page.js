@@ -7,12 +7,14 @@ import LoaderRenderComponent from '../rpc/loader.render';
 import NewsComponent from '../components/News';
 import PaginationComponent from '../components/Pagination';
 import { setInitial } from '../../store/actions/upvote.action';
+import { setInitialHide } from '../../store/actions/hide.action';
 
 function Home({ dispatch, hackerNews, isLoading, navigation }) {
 
     useEffect(function () {
         dispatch(fetchNewsAsync(1));
         dispatch(setInitial());
+        dispatch(setInitialHide());
     }, []);
 
 
